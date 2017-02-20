@@ -131,6 +131,7 @@ import TourItinerary from "../src/components/tourItinerary";
 import TravelAlert from "../src/components/travelAlert";
 import TypeSelector from "../src/components/typeSelector";
 import UserProfileHeader from "../src/components/userProfileHeader";
+import Validate from "../src/components/validate";
 import VideoEmbed from "../src/components/videoEmbed";
 
 storiesOf("Styles", module)
@@ -1906,6 +1907,46 @@ storiesOf("User profile header", module)
       subtitle="By air, land and sea"
       location="Ottawa, ON"
     />
+  ));
+
+storiesOf("Validate", module)
+  .addDecorator(withKnobs)
+  .add("Default", () => (
+    <Validate
+      validations={{
+        tester: ["required", "stupid", "email"],
+        baby: ["required", "email"],
+      }}
+
+      rules={{
+        required: {
+          test: (val) => val.length > 2,
+          message: (field) => `${field} Minimum length of 2`,
+        },
+        stupid: {
+          test: (val) => val.length > 4,
+          message: (field) => `${field} is stupid`,
+        },
+      }}
+    >
+      {(validate, errorMessages) => (
+        <form>
+          <div>
+            <input
+              type="text"
+              name="tester"
+              onChange={validate}
+            />
+            {errorMessages.tester && errorMessages.tester.map(val => <p>{val}</p>)}
+          </div>
+
+          <div>
+            <input type="text" name="baby" onBlur={validate} />
+            {errorMessages.baby && errorMessages.baby.map(val => <p>{val}</p>)}
+          </div>
+        </form>
+      )}
+    </Validate>
   ));
 
 storiesOf("Video embed", module)
