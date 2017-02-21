@@ -11,6 +11,14 @@ const validationRules = {
     test: (val) => emailRegEx.test(val),
     message: (name) => `${name} must be a valid email.`,
   },
+  min: {
+    test: (arg) => (val) => val.length >= arg,
+    message: (arg) => (name) => `${name} must be at least ${arg} characters.`,
+  },
+  max: {
+    test: (arg) => (val) => val.length <= arg,
+    message: (arg) => (name) => `${name} must ${arg} less than characters.`,
+  },
 };
 
 class Validate extends Component {
@@ -38,12 +46,24 @@ class Validate extends Component {
     });
   }
 
+
   testForValidation(field, value) {
     const fieldRules = this.props.validations[field];
+
     const combinedValidationRules = Object.assign({}, validationRules, this.props.rules);
     return fieldRules && fieldRules.map(rule => {
-      return !combinedValidationRules[rule].test(value) &&
-      combinedValidationRules[rule].message(field);
+      if (rule.indexOf(":") >= 0) {
+        const [funcName, arg] = rule.split(":");
+        if (combinedValidationRules[funcName]) {
+          return !combinedValidationRules[funcName].test(arg)(value) &&
+          combinedValidationRules[funcName].message(arg)(value);
+        }
+      }
+      return (
+      combinedValidationRules[rule] &&
+      !combinedValidationRules[rule].test(value) &&
+      combinedValidationRules[rule].message(field)
+      );
     }).filter(val => val);
   }
 

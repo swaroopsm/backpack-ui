@@ -1914,19 +1914,8 @@ storiesOf("Validate", module)
   .add("Default", () => (
     <Validate
       validations={{
-        tester: ["required", "stupid", "email"],
-        baby: ["required", "email"],
-      }}
-
-      rules={{
-        required: {
-          test: (val) => val.length > 2,
-          message: (field) => `${field} Minimum length of 2`,
-        },
-        stupid: {
-          test: (val) => val.length > 4,
-          message: (field) => `${field} is stupid`,
-        },
+        tester: ["required", "min:3", "email"],
+        baby: ["required", "email", "min:3"],
       }}
     >
       {(validate, errorMessages) => (
