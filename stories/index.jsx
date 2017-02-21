@@ -1920,16 +1920,9 @@ storiesOf("Validate", module)
 
       rules={{
         required: {
-          message: () => "This field is dawg the bounty hunter",
+          message: (field) => `${field} is dawg the bounty hunter`,
         },
       }}
-
-      // rules={{
-      //   required: {
-      //     test: (val) => false,
-      //     message: () => "in the rules",
-      //   },
-      // }}
     >
       {(validate, errorMessages) => (
         <form>

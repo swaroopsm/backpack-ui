@@ -30,6 +30,7 @@ class Validate extends Component {
 
     this.state = {
       errorMessages: {},
+      argumentSeperator: ":",
     };
 
     this.handleValidate = this.handleValidate.bind(this);
@@ -49,23 +50,29 @@ class Validate extends Component {
     });
   }
 
-  testForValidation(field, value) {
-    const fieldRules = this.props.validations[field];
+  ruleHasArgument(rule) {
+    return rule.indexOf(this.state.argumentSeperator) >= 0;
+  }
 
+  testForValidation(field, value) {
+    const fieldRequirements = this.props.validations[field];
+
+    // combine both the built in rules and custom rules
     const combinedValidationRules = _.merge({}, validationRules, this.props.rules);
 
-    return fieldRules && fieldRules.map(rule => {
-      if (rule.indexOf(":") >= 0) {
-        const [funcName, arg] = rule.split(":");
-        if (combinedValidationRules[funcName]) {
-          return !combinedValidationRules[funcName].test(arg)(value) &&
-          combinedValidationRules[funcName].message(arg)(field);
-        }
+    return fieldRequirements && fieldRequirements.map(rule => {
+      if (this.ruleHasArgument(rule)) {
+        const [funcName, arg] = rule.split(this.state.argumentSeperator);
+        return (
+          combinedValidationRules[funcName] &&
+          !combinedValidationRules[funcName].test(arg)(value) &&
+          combinedValidationRules[funcName].message(arg)(field)
+        );
       }
       return (
-      combinedValidationRules[rule] &&
-      !combinedValidationRules[rule].test(value) &&
-      combinedValidationRules[rule].message(field)
+        combinedValidationRules[rule] &&
+        !combinedValidationRules[rule].test(value) &&
+        combinedValidationRules[rule].message(field)
       );
     }).filter(val => val);
   }
