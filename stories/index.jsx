@@ -1914,8 +1914,8 @@ storiesOf("Validate", module)
   .add("Default", () => (
     <Validate
       validations={{
-        tester: ["required", "min:3", "email"],
-        baby: ["required", "email", "min:3"],
+        change: ["required", "min:3"],
+        blur: ["required", "email", "min:3"],
       }}
 
       rules={{
@@ -1924,21 +1924,27 @@ storiesOf("Validate", module)
         },
       }}
     >
-      {(validate, errorMessages) => (
-        <form>
+      {(validate, errorMessages, allValid, errorCount) => (
+        <form onSubmit={validate} >
           <div>
             <input
               type="text"
-              name="tester"
+              name="change"
               onChange={validate}
             />
-            {errorMessages.tester && errorMessages.tester.map(val => <p>{val}</p>)}
+            {errorMessages.change && errorMessages.change.map(val => <p>{val}</p>)}
           </div>
 
           <div>
-            <input type="text" name="baby" onBlur={validate} />
-            {errorMessages.baby && errorMessages.baby.map(val => <p>{val}</p>)}
+            <input
+              type="text"
+              name="blur"
+              onBlur={validate}
+            />
+            {errorMessages.blur && errorMessages.blur.map(val => <p>{val}</p>)}
           </div>
+          <input type="submit" disabled={!allValid} />
+          <p>Error Count: {errorCount}</p>
         </form>
       )}
     </Validate>

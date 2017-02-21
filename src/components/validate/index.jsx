@@ -20,7 +20,7 @@ const validationRules = {
   },
   max: {
     test: (arg) => (val) => val.length <= arg,
-    message: (arg) => (name) => `${name} must ${arg} less than characters.`,
+    message: (arg) => (name) => `${name} must be less than ${arg} characters.`,
   },
 };
 
@@ -31,6 +31,8 @@ class Validate extends Component {
     this.state = {
       errorMessages: {},
       argumentSeperator: ":",
+      allValid: false,
+      errorCount: 0,
     };
 
     this.handleValidate = this.handleValidate.bind(this);
@@ -40,14 +42,28 @@ class Validate extends Component {
   handleValidate(e) {
     const fieldName = e.target.name;
     const fieldValue = e.target.value;
-    const errorMessages = this.testForValidation(fieldName, fieldValue);
-    this.setState({
-      errorMessages: Object.assign(
+    const fieldErrorMessages = this.testForValidation(fieldName, fieldValue);
+    const allErrors = Object.assign(
         {},
         this.state.errorMessages,
-        { [fieldName]: errorMessages },
-      ),
+        { [fieldName]: fieldErrorMessages },
+      );
+
+    const errorCount = this.checkErrorCount(allErrors);
+
+    this.setState({
+      errorMessages: allErrors,
+      errorCount,
+      allValid: errorCount === 0,
     });
+  }
+
+  checkErrorCount(errorObject) {
+    return Object.keys(errorObject).length &&
+      Object.keys(errorObject).reduce((acc, curr) => {
+        const total = acc += Object.keys(errorObject[curr]).length;
+        return total;
+      }, 0);
   }
 
   ruleHasArgument(rule) {
@@ -78,7 +94,12 @@ class Validate extends Component {
   }
 
   render() {
-    return this.props.children(this.handleValidate, this.state.errorMessages);
+    return this.props.children(
+      this.handleValidate,
+      this.state.errorMessages,
+      this.state.allValid,
+      this.state.errorCount,
+    );
   }
 }
 
