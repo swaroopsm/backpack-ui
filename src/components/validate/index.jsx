@@ -1,4 +1,7 @@
 import React, { Component, PropTypes } from "react";
+import merge from "lodash/merge";
+
+const _ = { merge };
 
 const emailRegEx = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -46,17 +49,17 @@ class Validate extends Component {
     });
   }
 
-
   testForValidation(field, value) {
     const fieldRules = this.props.validations[field];
 
-    const combinedValidationRules = Object.assign({}, validationRules, this.props.rules);
+    const combinedValidationRules = _.merge({}, validationRules, this.props.rules);
+
     return fieldRules && fieldRules.map(rule => {
       if (rule.indexOf(":") >= 0) {
         const [funcName, arg] = rule.split(":");
         if (combinedValidationRules[funcName]) {
           return !combinedValidationRules[funcName].test(arg)(value) &&
-          combinedValidationRules[funcName].message(arg)(value);
+          combinedValidationRules[funcName].message(arg)(field);
         }
       }
       return (

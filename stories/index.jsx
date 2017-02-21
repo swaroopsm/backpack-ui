@@ -1917,6 +1917,19 @@ storiesOf("Validate", module)
         tester: ["required", "min:3", "email"],
         baby: ["required", "email", "min:3"],
       }}
+
+      rules={{
+        required: {
+          message: () => "This field is dawg the bounty hunter",
+        },
+      }}
+
+      // rules={{
+      //   required: {
+      //     test: (val) => false,
+      //     message: () => "in the rules",
+      //   },
+      // }}
     >
       {(validate, errorMessages) => (
         <form>
