@@ -24,7 +24,8 @@
     "check-only-changelog-changed": "(expr $(git status --porcelain 2>/dev/null| grep -v \"CHANGELOG.md\" | wc -l) >/dev/null && echo 'Only CHANGELOG.md may have uncommitted changes' && exit 1) || exit 0"
   },
   "pre-commit": [
-    "lint"
+    "lint",
+    "test"
   ],
   "author": "Lonely Planet",
   "license": "ISC",
