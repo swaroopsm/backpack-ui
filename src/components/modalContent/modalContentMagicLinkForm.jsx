@@ -7,6 +7,11 @@ import Button from "../button";
 import color from "../../styles/colors";
 
 const styles = {
+  container: {
+    width: "100%",
+    maxWidth: "295px",
+    textAlign: "center",
+  },
   inputContainer: {
     marginBottom: "48px",
   },
@@ -21,6 +26,7 @@ class MagicLinkForm extends Component {
     this.state = {
       value: "",
       valid: false,
+      showErrors: false,
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -29,7 +35,13 @@ class MagicLinkForm extends Component {
 
 
   handleSubmit() {
-    this.props.onSubmit(this.state.value);
+    if (!this.state.valid) {
+      return this.setState({
+        showErrors: true,
+      });
+    }
+
+    return this.props.onSubmit(this.state.value);
   }
 
   handleChange(e, errorCount) {
@@ -41,49 +53,42 @@ class MagicLinkForm extends Component {
 
   render() {
     return (
-      <div
-        style={{
-          textAlign: "center",
-        }}
-      >
-        <Validate>
-          {({ validate, errorMessages, errorCount }) => (
-            <div>
-              <div style={styles.inputContainer}>
-                <Input
-                  theme="float"
-                  type="email"
-                  name="email"
-                  customStyles={styles.input}
-                  required
-                  placeholder="example@expample.com"
-                  onChange={(e) => {
-                    this.handleChange(e, errorCount);
-                    validate(e);
-                  }}
-                  onBlur={(e) => {
-                    this.handleChange(e, errorCount);
-                    validate(e);
-                  }}
-                  value={this.state.value}
+      <Validate>
+        {({ validate, errorMessages, errorCount }) => (
+          <div style={styles.container}>
+            <div style={styles.inputContainer}>
+              <Input
+                theme="float"
+                type="email"
+                name="email"
+                customStyles={styles.input}
+                requiredd
+                placeholder="example@expample.com"
+                onChange={(e) => {
+                  this.handleChange(e, errorCount);
+                  validate(e);
+                }}
+                onBlur={(e) => {
+                  this.handleChange(e, errorCount);
+                  validate(e);
+                }}
+                value={this.state.value}
+              />
+              {this.state.showErrors && errorMessages.email && errorMessages.email.length > 0 &&
+                <ErrorMessages
+                  messages={errorMessages.email}
                 />
-                {errorMessages.email && errorMessages.email.length > 0 &&
-                  <ErrorMessages
-                    messages={errorMessages.email}
-                  />
-                }
-              </div>
-              <Button
-                onClick={this.handleSubmit}
-                disabled={!this.state.valid}
-                rounded
-              >
-                Next
-              </Button>
+              }
             </div>
-          )}
-        </Validate>
-      </div>
+            <Button
+              onClick={this.handleSubmit}
+              rounded
+            >
+              Next
+            </Button>
+          </div>
+        )}
+      </Validate>
     );
   }
 }

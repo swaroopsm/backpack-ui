@@ -25,10 +25,23 @@ class LegacyForm extends React.Component {
     this.state = {
       identifierValue: "",
       passwordValue: "",
+      showErrors: false,
       valid: false,
     };
 
     this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    if (!this.state.valid) {
+      return this.setState({
+        showErrors: true,
+      });
+    }
+
+    return this.form.submit();
   }
 
   handleChange(e, type, errorCount) {
@@ -43,7 +56,13 @@ class LegacyForm extends React.Component {
       <div style={styles.container}>
         <Validate>
           {({ validate, errorMessages, errorCount }) => (
-            <form action={this.props.authLink} method="post">
+            <form
+              action={this.props.authLink}
+              ref={(node) => {
+                this.form = node;
+              }}
+              method="post"
+            >
               <div style={styles.inputContainer}>
                 <input type="hidden" name="user_identifier_type" value="email" />
                 <Input
@@ -52,13 +71,9 @@ class LegacyForm extends React.Component {
                   name="user_identifier"
                   required
                   customStyles={styles.input}
-                  error={errorMessages.username && errorMessages.username.length > 0}
-                  placeholder="Email and/or username"
+                  error={errorMessages.user_identifier && errorMessages.user_identifier.length > 0}
+                  placeholder="Email or username"
                   onChange={(e) => {
-                    this.handleChange(e, "identifier", errorCount);
-                    validate(e);
-                  }}
-                  onBlur={(e) => {
                     this.handleChange(e, "identifier", errorCount);
                     validate(e);
                   }}
@@ -77,22 +92,23 @@ class LegacyForm extends React.Component {
                     this.handleChange(e, "password", errorCount);
                     validate(e);
                   }}
-                  onBlur={(e) => {
-                    this.handleChange(e, "password", errorCount);
-                    validate(e);
-                  }}
                   value={this.state.passwordValue}
                 />
-                {errorMessages.username && errorMessages.username.length > 0 &&
-                  <ErrorMessages messages={errorMessages.username} />
+                {
+                  this.state.showErrors &&
+                  errorMessages.user_identifier &&
+                  errorMessages.user_identifier.length > 0 &&
+                  <ErrorMessages messages={errorMessages.user_identifier} />
                 }
-                {errorMessages.password && errorMessages.password.length > 0 &&
+                {
+                  this.state.showErrors &&
+                  errorMessages.password &&
+                  errorMessages.password.length > 0 &&
                   <ErrorMessages messages={errorMessages.password} />
                 }
               </div>
               <Button
-                type="submit"
-                disabled={!this.state.valid}
+                onClick={this.handleSubmit}
                 rounded
               >
                 Submit
