@@ -20,7 +20,7 @@ const styles = {
   justifyContent: "center",
   lineHeight: 1,
   padding: 0,
-  transition: `color ${timing.fast}, box-shadow ${timing.fast}`,
+  transition: `box-shadow ${timing.fast}`,
   width: `${(54 / fontSizeHeading5)}em`,
 
   ":active": {
@@ -61,7 +61,7 @@ const ListButton = ({
 };
 
 ListButton.propTypes = {
-  onClick: PropTypes.func.isRequireed,
+  onClick: PropTypes.func.isRequired,
   size: PropTypes.oneOf(["", "large"]),
   marked: PropTypes.bool,
   icon: PropTypes.oneOf(Object.keys(Icon)).isRequired,
