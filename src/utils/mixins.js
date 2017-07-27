@@ -15,6 +15,23 @@ function outline(offset = 2) {
 }
 
 /**
+ * Hide only visually, but have available for screen readers
+ * @return {Object} CSS styles
+ */
+function visuallyHidden() {
+  return {
+    border: 0,
+    clip: "rect(0 0 0 0)",
+    height: "1px",
+    margin: "-1px",
+    overflow: "hidden",
+    padding: 0,
+    position: "absolute",
+    width: "1px",
+  }
+}
+
+/**
  * Creates a blue hyperlink; for use with inline styles via Radium
  * @return {Object} CSS styles
  */
@@ -75,6 +92,7 @@ function underlinedLink(linkColor = colors.textPrimary) {
 
 export {
   outline,
+  visuallyHidden,
   blueLink,
   underlinedLink,
 };
