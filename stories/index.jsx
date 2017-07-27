@@ -107,6 +107,7 @@ import PhotoGallery from "../src/components/photoGallery";
 import Placeholder from "../src/components/placeholder";
 import PoiPaginator from "../src/components/poiPaginator";
 // Price
+import PriceRangeLabel from "../src/components/priceRangeLabel";
 import ProfileHeader from "../src/components/profileHeader";
 import PromotedGuidebook from "../src/components/promotedGuidebook";
 import ProviderLogo from "../src/components/providerLogo";
@@ -1509,6 +1510,14 @@ storiesOf("POI Paginator", module)
       neighborhood={text("Neighborhood", "Hofburg")}
       place={text("Place", "Vienna")}
       topChoice={boolean("Top choice", false)}
+    />
+  ));
+
+storiesOf("Price range", module)
+  .addDecorator(withKnobs)
+  .add("Default", () => (
+    <PriceRangeLabel
+      value={select("Range", ["$", "$$", "$$$"], "$$")}
     />
   ));
 
