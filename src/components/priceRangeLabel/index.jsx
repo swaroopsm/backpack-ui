@@ -37,6 +37,7 @@ const PriceRangeLabel = ({ value, style }) => (
   <span
     className="PriceRangeLabel"
     style={[styles.container, style]}
+    title={`${definitions[value]} price`}
     aria-label={`${definitions[value]} price`}
   >
     {["$", "$", "$"].map((symbol, index) => (
