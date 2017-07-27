@@ -90,6 +90,7 @@ export { default as PaginatorButton } from "./components/paginatorButton";
 export { default as Placeholder } from "./components/placeholder";
 export { default as PoiPaginator } from "./components/poiPaginator";
 export { default as Price } from "./components/price";
+export { default as PriceRangeLabel } from "./components/priceRangeLabel";
 export { default as ProfileHeader } from "./components/profileHeader";
 export { default as PromotedGuidebook } from "./components/promotedGuidebook";
 export { default as ProviderLogo } from "./components/providerLogo";
