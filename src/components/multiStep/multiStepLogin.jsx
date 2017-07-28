@@ -88,7 +88,7 @@ const MultiStepLogin = ({
           and password to sign in.
         </AuthMessage>
         <ModalContentLegacyLoginForm
-          authLink={authActions.password()}
+          authLink={authActions.password}
         />
         {EmailDisclaimer}
       </AuthContainer>
