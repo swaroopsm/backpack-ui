@@ -70,7 +70,7 @@ ListButton.propTypes = {
 };
 
 ListButton.defaultProps = {
-  icon: "BookmarkOutline",
+  icon: "Bookmark",
 };
 
 export default radium(ListButton);

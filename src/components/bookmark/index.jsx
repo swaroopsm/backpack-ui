@@ -37,9 +37,9 @@ const Bookmark = ({ onClick, size, marked, style }) => (
     onClick={onClick}
   >
     {marked ? (
-      <Icon.Bookmark {...iconProps} />
+      <Icon.BookmarkActive {...iconProps} />
     ) : (
-      <Icon.BookmarkOutline {...iconProps} />
+      <Icon.Bookmark {...iconProps} />
     )}
   </button>
 );

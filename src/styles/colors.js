@@ -38,11 +38,18 @@ const poiPink = accentPink;
 const poiPurple = accentPurple;
 const poiGray = accentGray;
 const poiDefault = "#a8a9ae";
+const poiEat = "#00ca8b";
+const poiPlay = "#ffc92a";
+const poiSee = "#f8324d";
 
 // Social colors
 const socialFacebook = "#3a5999";
 const socialFacebookMessenger = "#1472fb";
 const socialPinterest = "#cb2027";
+const socialGoogleBlue = "#557ebf";
+const socialGoogleGreen = "#36a852";
+const socialGoogleYellow = "#f9bc15";
+const socialGoogleRed = "#ea4535";
 const socialReddit = "#fc4220";
 const socialTwitter = "#1da1f2";
 
@@ -78,9 +85,16 @@ export default {
   poiPurple,
   poiGray,
   poiDefault,
+  poiEat,
+  poiPlay,
+  poiSee,
 
   socialFacebook,
   socialFacebookMessenger,
+  socialGoogleBlue,
+  socialGoogleGreen,
+  socialGoogleYellow,
+  socialGoogleRed,
   socialPinterest,
   socialReddit,
   socialTwitter,
